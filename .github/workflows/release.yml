@@ -79,19 +79,19 @@ jobs:
           fetch-depth: 0
 
       - name: Download build artifacts from Linux
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v7
         with:
           name: build-ubuntu-latest
           path: dist/linux
 
       - name: Download build artifacts from Windows
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v7
         with:
           name: build-windows-latest
           path: dist/windows
 
       - name: Download build artifacts from macOS
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v7
         with:
           name: build-macos-26
           path: dist/macos
@@ -116,7 +116,7 @@ jobs:
           EOF
 
       - name: Release & Assets
-        uses: Hs1r1us/Release-AIO@v1.0
+        uses: Hs1r1us/Release-AIO@v2.0
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
