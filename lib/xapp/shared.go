@@ -1,7 +1,10 @@
 package xapp
 
 import (
+	"crypto/hmac"
 	"crypto/md5"
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
@@ -28,7 +31,7 @@ func Rename(path string, time time.Time) (ret string) {
 	base := xpath.Basename(path)
 	ext := filepath.Ext(path)
 	md5HashStr := fmt.Sprintf("%x", md5.Sum([]byte(base)))
-	r := strings.NewReplacer(
+	replacementList := []string{
 		"{year}", time.Format("2006"),
 		"{month}", time.Format("01"),
 		"{day}", time.Format("02"),
@@ -38,14 +41,28 @@ func Rename(path string, time time.Time) (ret string) {
 		"{unixts}", fmt.Sprint(time.Unix()),
 		"{unixtsms}", fmt.Sprint(time.UnixMicro()),
 		"{ext}", ext,
-		"{fullname}", base+ext,
+		"{fullname}", base + ext,
 		"{filename}", base,
 		"{fname}", base,
 		"{filenamehash}", md5HashStr,
 		"{fnamehash}", md5HashStr,
 		"{fnamehash4}", md5HashStr[:4],
 		"{fnamehash8}", md5HashStr[:8],
-	)
+	}
+
+	if len(AppCfg.HmacKey) > 0 && len(AppCfg.HmacFormat) > 0 && strings.Contains(AppCfg.Rename, "{hmac}") {
+		r := strings.NewReplacer(replacementList...)
+		param := r.Replace(AppCfg.HmacFormat)
+		h := hmac.New(sha256.New, []byte(AppCfg.HmacKey))
+		h.Write([]byte(param))
+		hmacHashStr := hex.EncodeToString(h.Sum(nil))
+		if AppCfg.HmacLen > 0 && AppCfg.HmacLen < len(hmacHashStr) {
+			hmacHashStr = hmacHashStr[:AppCfg.HmacLen]
+		}
+		replacementList = append(replacementList, "{hmac}", hmacHashStr)
+	}
+
+	r := strings.NewReplacer(replacementList...)
 	ret = r.Replace(AppCfg.Rename)
 	return
 }

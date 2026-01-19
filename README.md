@@ -250,6 +250,10 @@ For Windows user:
 | -- `{fname_hash}` | -- MD5 Hash in hex of `{fname}`                          |
 | -- `{fname_hash4}` | -- MD5 Hash in hex of `{fname}`, first 4 digits                          |
 | -- `{fname_hash8}` | -- MD5 Hash in hex of `{fname}`, first 8 digits                          |
+| -- `{hmac}`        | -- HMAC-SHA256 hash of `hmac_format`, truncated to `hmac_len`            |
+| hmac_key           | Secret key for calculation `{hmac}`                                          |
+| hmac_format        | Format string for `{hmac}` calculation. Supporting all above placeholders.   |
+| hmac_len           | Length of `{hmac}` hash. 0 means no truncation.                              |
 
 Here is a simplist sample config file:
 
