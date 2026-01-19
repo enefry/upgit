@@ -16,8 +16,11 @@ default_uploader = "github"
 #   {ext} 文件后缀名, 例如.png
 #   下面的例子生成的文件名预览: 2022/01/upgit_20220131_1643617626.png
 #   如果目录不存在将会被程序自动创建
-rename = "{year}/{month}/upgit_{year}{month}{day}_{unix_ts}{ext}"
+rename = "{year}/{month}/upgit_{year}{month}{day}_{unix_ts}_{hmac}{ext}"
 
+hmac_key = "74d11935-b2ad-5a3f-8184-5ecdf4f4906b"
+hmac_format = "{year}_{month}_{day}_{unix_ts}{ext}"
+hmac_len = 31
 
 # -----------------------------------------------------------------------------
 # 自定义输出格式

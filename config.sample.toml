@@ -15,7 +15,12 @@ default_uploader = "github"
 #   {fname_hash} MD5 hash value of {fname}
 #   {ext} File name suffix, for example: .png
 #   The following example generates a file name like: 2022/01/upgit_20220131_1643617626.png
-rename = "{year}/{month}/upgit_{year}{month}{day}_{unix_ts}{ext}"
+rename = "{year}/{month}/upgit_{year}{month}{day}_{unix_ts}_{hmac}{ext}"
+
+hmac_key = "74d11935-b2ad-5a3f-8184-5ecdf4f4906b"
+hmac_format = "{year}_{month}_{day}_{unix_ts}{ext}"
+hmac_len = 31
+
 
 # -----------------------------------------------------------------------------
 # Custom extra output formats
