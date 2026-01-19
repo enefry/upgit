@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies on macOS
         if: matrix.os == 'macos-26'
         run: |
-          brew install filosottile/musl-cross/musl-cross
+          # brew install filosottile/musl-cross/musl-cross
           brew install libx11
           ln -s /opt/X11/include/X11 /usr/local/include/X11
 
