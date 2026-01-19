@@ -167,7 +167,7 @@ func outputFormat(r model.Task) (content string, err error) {
 
 func validArgs() {
 	if errs := validator.Validate(xapp.AppCfg); errs != nil {
-		xlog.AbortErr(fmt.Errorf("incorrect config: " + errs.Error()))
+		xlog.AbortErr(fmt.Errorf("incorrect config: %s", errs.Error()))
 	}
 
 	for _, path := range xapp.AppOpt.LocalPaths {
@@ -223,7 +223,7 @@ func loadConfig(cfg *xapp.Config) {
 			err = toml.Unmarshal(optRawBytes, &cfg)
 		}
 		if err != nil {
-			xlog.AbortErr(fmt.Errorf("invalid config: " + err.Error()))
+			xlog.AbortErr(fmt.Errorf("invalid config: %s", err.Error()))
 		}
 		xapp.ConfigFilePath = configFile
 		break
@@ -396,7 +396,7 @@ func handleClipboard() {
 		if label == xapp.ClipboardPlaceholder {
 			err := clipboard.Init()
 			if err != nil {
-				xlog.AbortErr(fmt.Errorf("failed to init clipboard: " + err.Error()))
+				xlog.AbortErr(fmt.Errorf("failed to init clipboard: %s", err.Error()))
 			}
 
 			tmpFileName := fmt.Sprint(os.TempDir(), "/upgit_tmp_", time.Now().UnixMicro(), ".png")
